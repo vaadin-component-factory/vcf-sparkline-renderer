@@ -19,7 +19,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Route("vaadin-component-skeleton")
+@Route("sparkline-renderer")
 @Theme(Lumo.class)
 @Push(transport = Transport.WEBSOCKET_XHR)
 public class ComponentSkeletonView extends DemoView {
@@ -36,8 +36,8 @@ public class ComponentSkeletonView extends DemoView {
         grid.addColumn(Song::getName).setHeader("Name").setSortable(true);
         grid.addColumn(Song::getArtist).setHeader("Artist").setSortable(true);
         grid.setItems(createListOfOneSongs());
-
         grid.addColumn(new SparklineRenderer<>(this::createSparklineValues, this::createConfiguration)).setHeader("Daily listeners");
+
         grid.setHeight("120px");
         add(grid);
 
