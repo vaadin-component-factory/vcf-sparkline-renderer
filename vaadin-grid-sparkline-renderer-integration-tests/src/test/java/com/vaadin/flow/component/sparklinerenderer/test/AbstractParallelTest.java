@@ -1,4 +1,4 @@
-package com.vaadin.flow.component.componentskeleton.test;
+package com.vaadin.flow.component.sparklinerenderer.test;
 
 import java.util.Arrays;
 import java.util.List;

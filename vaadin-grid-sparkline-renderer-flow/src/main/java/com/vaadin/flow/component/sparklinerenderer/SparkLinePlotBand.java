@@ -20,12 +20,13 @@ package com.vaadin.flow.component.sparklinerenderer;
 
 import javax.annotation.Nullable;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
  * Horizontal plot band for spark line. Can be used e.g. to display threshold intervals with given (optional) line color and (optional) background color.
  */
-public class SparkLinePlotBand {
+public class SparkLinePlotBand implements Serializable {
 
     private Double fromValue;
     private Double toValue;

@@ -17,14 +17,16 @@ package com.vaadin.flow.component.sparklinerenderer;
  * #L%
  */
 
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasSize;
-import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.data.provider.DataKeyMapper;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.data.renderer.Rendering;
 import com.vaadin.flow.function.ValueProvider;
+import com.vaadin.flow.internal.UsageStatistics;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.StreamResourceWriter;
+import com.vaadin.pro.licensechecker.LicenseChecker;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -58,6 +60,9 @@ import java.util.UUID;
  *               sparkline
  */
 public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer.SvgComponent, ITEM> {
+
+    private static final String PROJECT_NAME = "vaadin-grid-sparkline-renderer-flow";
+    private static final String PROJECT_VERSION = "1.0.0";
 
     private static final String UNIT_PX = "PX";
     private static final String SVG_ASPECT_RATIO = "none";
@@ -305,5 +310,21 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
                 session.unlock();
             }
         });
+    }
+
+    @Override
+    public Rendering<ITEM> render(com.vaadin.flow.dom.Element container, DataKeyMapper<ITEM> keyMapper, com.vaadin.flow.dom.Element contentTemplate) {
+        UI ui = UI.getCurrent();
+        if (ui != null) {
+            verifyLicense(ui.getSession().getConfiguration().isProductionMode());
+        }
+        return super.render(container, keyMapper, contentTemplate);
+    }
+
+    private void verifyLicense(boolean productionMode) {
+        if (!productionMode) {
+            LicenseChecker.checkLicense(PROJECT_NAME, PROJECT_VERSION);
+            UsageStatistics.markAsUsed(PROJECT_NAME, PROJECT_VERSION);
+        }
     }
 }

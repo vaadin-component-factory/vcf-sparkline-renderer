@@ -18,13 +18,14 @@ package com.vaadin.flow.component.sparklinerenderer;
  */
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * SparklineConfiguration for setting Sparkline's width, height, line width, line color, and plot bands etc..
  */
-public class SparklineConfiguration {
+public class SparklineConfiguration implements Serializable {
 
     // Set of predefined colors
     public static final Color LIGHT_GREEN = new Color(219, 240, 214);
@@ -196,6 +197,17 @@ public class SparklineConfiguration {
      */
     public SparklineConfiguration withPlotBands(List<SparkLinePlotBand> plotBands) {
         this.plotBands = plotBands;
+        return this;
+    }
+
+    /**
+     * @return SparklineConfiguration with given plot band
+     */
+    public SparklineConfiguration withPlotBand(SparkLinePlotBand plotBand) {
+        if (plotBands == null) {
+            plotBands = new ArrayList<>();
+        }
+        plotBands.add(plotBand);
         return this;
     }
 }

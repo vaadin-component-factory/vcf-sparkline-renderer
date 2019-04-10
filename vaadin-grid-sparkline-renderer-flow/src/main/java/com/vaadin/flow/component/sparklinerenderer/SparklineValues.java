@@ -18,11 +18,12 @@ package com.vaadin.flow.component.sparklinerenderer;
  */
 
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SparklineValues {
+public class SparklineValues implements Serializable {
 
     private List<SparklineValue> values = new ArrayList<>();
 
@@ -41,7 +42,7 @@ public class SparklineValues {
         this.values = values;
     }
 
-    public static class SparklineValue {
+    public static class SparklineValue implements Serializable {
         private Instant instant;
         private Double value;
 

@@ -1,4 +1,4 @@
-package com.vaadin.flow.component.componentskeleton.test;
+package com.vaadin.flow.component.sparklinerenderer.test;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -26,6 +26,9 @@ Add SprarklineRenderer to your project
 
 #### Basic use
 ```java
+public class ComponentSkeletonView extends DemoView {
+    
+private void basicDemo() {
 //...
     Grid<Song> grid = new Grid<>();
         grid.addColumn(Song::getName).setHeader("Name").setSortable(true);
@@ -33,6 +36,8 @@ Add SprarklineRenderer to your project
         grid.setItems(createListOfOneSongs());
         grid.addColumn(new SparklineRenderer<>(this::createSparklineValues, this::createConfiguration)).setHeader("Daily listeners");
 //...
+}
+
 private SparklineValues createSparklineValues(Song song) {
     return new SparklineValues(song.getDailyListeners().getMeasurements().stream().map(measurement -> new SparklineValues.SparklineValue(measurement.getInstant(), measurement.getValue())).collect(Collectors.toList()));
 }
@@ -45,6 +50,7 @@ private SparklineConfiguration createConfiguration(Song song) {
     plotBand.add(new SparkLinePlotBand(600.0, 800.0).withLineColor(SparklineConfiguration.YELLOW));
     plotBand.add(new SparkLinePlotBand(800.0, 1200.0).withLineColor(SparklineConfiguration.RED));
     return new SparklineConfiguration().withPlotBands(plotBand);
+}
 }
 ```
 

@@ -1,4 +1,4 @@
-package com.vaadin.flow.component.componentskeleton.testbench;
+package com.vaadin.flow.component.sparklinerenderer.testbench;
 
 /*
  * #%L

@@ -1,4 +1,4 @@
-package com.vaadin.flow.component.componentskeleton;
+package com.vaadin.flow.component.sparklinerenderer;
 
 import com.vaadin.flow.testutil.ClassesSerializableTest;
 
