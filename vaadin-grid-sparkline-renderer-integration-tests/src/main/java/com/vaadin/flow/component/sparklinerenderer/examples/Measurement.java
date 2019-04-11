@@ -1,4 +1,4 @@
-package com.vaadin.flow.component.sparklinerenderer;
+package com.vaadin.flow.component.sparklinerenderer.examples;
 
 import java.io.Serializable;
 import java.time.Instant;

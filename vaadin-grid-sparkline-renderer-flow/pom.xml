@@ -15,15 +15,7 @@
     <name>Vaadin Grid SparklineRenderer Flow</name>
 
     <dependencies>
-        <!--Webjar-->
-        <!--<dependency>-->
-            <!--<groupId>com.vaadin.webjar</groupId>-->
-            <!--<artifactId>vaadin-component-skeleton</artifactId>-->
-            <!--<version>1.0.0</version>-->
-        <!--</dependency>-->
 
-
-        <!--Pinned transitive webjars-->
         <dependency>
             <groupId>org.webjars.bowergithub.vaadin</groupId>
             <artifactId>license-checker</artifactId>
@@ -35,6 +27,27 @@
             <artifactId>flow</artifactId>
             <version>${flow.version}</version>
             <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-data</artifactId>
+            <version>${flow.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-server</artifactId>
+            <version>${flow.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -57,20 +70,6 @@
             <type>jar</type>
         </dependency>
 
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-data</artifactId>
-            <version>${flow.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!--Test scoped-->
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -88,6 +87,12 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-grid-flow</artifactId>
             <version>${vaadin-grid-flow-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>flow-osgi</artifactId>
+            <version>${flow.version}</version>
             <scope>test</scope>
         </dependency>
 
