@@ -51,7 +51,7 @@ private SparklineValues createSparklineValues(Song song) {
 ```java
 public class SparklineRendererDemoView extends DemoView {
     
-private void basicDemo() {
+private void plotBandDemo() {
 //... 
     grid.addColumn(new SparklineRenderer<>(this::createSparklineValuesTemp, this::createSparklineConfTemp)).setHeader("Body temparature");//...
 }
