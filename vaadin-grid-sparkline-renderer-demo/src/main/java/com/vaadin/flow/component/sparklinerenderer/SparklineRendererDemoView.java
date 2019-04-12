@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 @Route("sparkline-renderer")
 @Theme(Lumo.class)
 @Push(transport = Transport.WEBSOCKET_XHR)
-public class ComponentSkeletonView extends DemoView {
+public class SparklineRendererDemoView extends DemoView {
 
     public ScheduledExecutorService executorService;
 

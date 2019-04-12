@@ -26,31 +26,48 @@ Add SprarklineRenderer to your project
 
 #### Basic use
 ```java
-public class ComponentSkeletonView extends DemoView {
+public class SparklineRendererDemoView extends DemoView {
     
 private void basicDemo() {
-//...
+//... 
     Grid<Song> grid = new Grid<>();
         grid.addColumn(Song::getName).setHeader("Name").setSortable(true);
         grid.addColumn(Song::getArtist).setHeader("Artist").setSortable(true);
         grid.setItems(createListOfOneSongs());
-        grid.addColumn(new SparklineRenderer<>(this::createSparklineValues, this::createConfiguration)).setHeader("Daily listeners");
+        // add a column with SparklineRenderer to Grid
+        grid.addColumn(new SparklineRenderer<>(this::createSparklineValues,  song -> new SparklineConfiguration())).setHeader("Daily listeners");
 //...
 }
 
 private SparklineValues createSparklineValues(Song song) {
+    // convert existing time series data to a SparklineValues object
     return new SparklineValues(song.getDailyListeners().getMeasurements().stream().map(measurement -> new SparklineValues.SparklineValue(measurement.getInstant(), measurement.getValue())).collect(Collectors.toList()));
 }
-
-private SparklineConfiguration createConfiguration(Song song) {
-    List<SparkLinePlotBand> plotBand = new ArrayList<>();
-    plotBand.add(new SparkLinePlotBand(0.0, 200.0).withLineColor(SparklineConfiguration.RED));
-    plotBand.add(new SparkLinePlotBand(200.0, 400.0).withLineColor(SparklineConfiguration.YELLOW));
-    plotBand.add(new SparkLinePlotBand(400.0, 600.0).withLineColor(SparklineConfiguration.GREEN).withBackgroundColor(SparklineConfiguration.LIGHT_GREEN));
-    plotBand.add(new SparkLinePlotBand(600.0, 800.0).withLineColor(SparklineConfiguration.YELLOW));
-    plotBand.add(new SparkLinePlotBand(800.0, 1200.0).withLineColor(SparklineConfiguration.RED));
-    return new SparklineConfiguration().withPlotBands(plotBand);
 }
+```
+
+#### Add PlotBands
+
+```java
+public class SparklineRendererDemoView extends DemoView {
+    
+private void basicDemo() {
+//... 
+    grid.addColumn(new SparklineRenderer<>(this::createSparklineValuesTemp, this::createSparklineConfTemp)).setHeader("Body temparature");//...
+}
+
+private SparklineConfiguration createSparklineConfTemp(Patient patient) {
+        return new SparklineConfiguration()
+                // scale y-axis between min and ax value
+                .withAutoScaleYAxis(true)
+                // add a plotband with line color and background color
+                .withPlotBand(new SparkLinePlotBand(36.0, 38.0)
+                        .withBackgroundColor(SparklineConfiguration.LIGHT_GREEN).withLineColor(Color.GREEN))
+                // add a plotband with line color
+                .withPlotBand(new SparkLinePlotBand(38.0, 41.0)
+                        .withLineColor(Color.RED));
+    }
+
 }
 ```
 
