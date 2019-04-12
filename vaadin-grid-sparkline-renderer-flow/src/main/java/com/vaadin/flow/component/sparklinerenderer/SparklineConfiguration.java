@@ -41,7 +41,8 @@ public class SparklineConfiguration implements Serializable {
     private int sparklineHeightPx = 25;
     private int sparklineWidthPx = 120;
 
-    private boolean fillGapsWhenNullValues = true;
+    private boolean fillGapsWhenNullValues = false;
+    private boolean autoScaleYAxis = false;
 
     private List<SparkLinePlotBand> plotBands;
 
@@ -209,5 +210,20 @@ public class SparklineConfiguration implements Serializable {
         }
         plotBands.add(plotBand);
         return this;
+    }
+
+    /**
+     * @return SparklineConfiguration with given value of y-axis auto scaling
+     */
+    public SparklineConfiguration withAutoScaleYAxis(boolean autoScaleYAxis) {
+        this.autoScaleYAxis = autoScaleYAxis;
+        return this;
+    }
+
+    /**
+     * @return given value of y-axis auto scaling
+     */
+    public boolean isAutoScaleYAxis() {
+        return autoScaleYAxis;
     }
 }

@@ -34,7 +34,6 @@
 
 	<modules>
 		<module>vaadin-grid-sparkline-renderer-flow</module>
-		<module>vaadin-grid-sparkline-renderer-testbench</module>
 		<module>vaadin-grid-sparkline-renderer-integration-tests</module>
 		<module>vaadin-grid-sparkline-renderer-demo</module>
 	</modules>

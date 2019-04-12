@@ -15,51 +15,46 @@
     <name>Vaadin Grid SparklineRenderer Demo</name>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <vaadin.version>13.0.3</vaadin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${vaadin.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>flow-client</artifactId>
-            <version>${flow.version}</version>
+            <artifactId>vaadin-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-html-components</artifactId>
-            <version>${flow.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>flow-component-demo-helpers</artifactId>
             <version>${flow.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-data</artifactId>
-            <version>${flow.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-grid-flow</artifactId>
-            <version>${vaadin-grid-flow-version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-grid-sparkline-renderer-flow</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-lumo-theme</artifactId>
-            <version>1.4.2</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
         </dependency>
-
-
     </dependencies>
 
     <build>

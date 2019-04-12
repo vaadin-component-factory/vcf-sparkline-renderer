@@ -18,54 +18,98 @@ package com.vaadin.flow.component.sparklinerenderer;
  */
 
 
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * SparklineValues holds a list of SparklineValue:s
+ */
 public class SparklineValues implements Serializable {
 
     private List<SparklineValue> values = new ArrayList<>();
 
+    /**
+     * Construct SparklineValues
+     * @param values list of SparklineValue
+     */
     public SparklineValues(List<SparklineValue> values) {
         this.values = values;
     }
 
+    /**
+     * Construct SparklineValues
+     */
     public SparklineValues() {
     }
 
+    /**
+     * @return list of SparklineValue
+     */
     public List<SparklineValue> getValues() {
         return values;
     }
 
+    /**
+     * @param values list of SparklineValue
+     */
     public void setValues(List<SparklineValue> values) {
         this.values = values;
     }
 
+    /**
+     * Remove SparklineValue:s which numeric value is null
+     */
+    public void filterOutNullValues() {
+        values = values.stream().filter(value->value.getValue()!=null).collect(Collectors.toList());
+    }
+
+    /**
+     * Single value of Sparkline, value might be null
+     */
     public static class SparklineValue implements Serializable {
         private Instant instant;
         private Double value;
 
-        public SparklineValue(Instant instant, Double value) {
+        /**
+         * Construct a SparklineValue
+         * @param instant timestamp
+         * @param value numeric value
+         */
+        public SparklineValue(Instant instant, @Nullable Double value) {
             this.instant = instant;
             this.value = value;
         }
 
+        /**
+         * @return timestamp of the value
+         */
         public Instant getInstant() {
             return instant;
         }
 
+        /**
+         * @param instant timestamp of the value
+         */
         public void setInstant(Instant instant) {
             this.instant = instant;
         }
 
+        /**
+         * @return numeric value which might be null
+         */
         public Double getValue() {
             return value;
         }
 
-        public void setValue(Double value) {
+        /**
+         * @param value numeric value which might be null
+         */
+        public void setValue(@Nullable Double value) {
             this.value = value;
         }
     }
-
 }

@@ -70,10 +70,12 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
     private ValueProvider<ITEM, SparklineValues> valueProvider;
     private ValueProvider<ITEM, SparklineConfiguration> configurationValueProvider;
 
-    private Double minY;
-    private Double maxY;
+    private Double minY = 0.0;
+    private Double maxY = 0.0;
 
     private SparklineConfiguration sparklineConfiguration;
+
+    private boolean licenceVerified;
 
     /**
      * SvgComponent for displaying svg in object tag
@@ -135,6 +137,10 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
 
         findMinandMaxValues(values);
 
+        if (configuration.isFillGapsWhenNullValues()) {
+            values.filterOutNullValues();
+        }
+
         for (int index = 0; index < values.getValues().size(); index++) {
             SparklineValues.SparklineValue value = values.getValues().get(index);
             SparklineValues.SparklineValue nextValue = null;
@@ -163,6 +169,9 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
         y.setNegativeArrowVisible(false);
         y.setPositiveArrowVisible(false);
         y.setVisible(false);
+        if (configuration.isAutoScaleYAxis()) {
+            y.setRangeWithMargins(minY, maxY);
+        }
 
         XYPlot plot = new XYPlot();
         plot.setInsets(new RectangleInsets(-1, -1, 0, 0));
@@ -219,8 +228,8 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
      * Find min and max values of SparklineValues
      */
     private void findMinandMaxValues(SparklineValues values) {
-        minY = values.getValues().stream().mapToDouble(SparklineValues.SparklineValue::getValue).min().orElse(0.0);
-        maxY = values.getValues().stream().mapToDouble(SparklineValues.SparklineValue::getValue).max().orElse(0.0);
+        minY = values.getValues().stream().filter(value -> value.getValue() != null).mapToDouble(SparklineValues.SparklineValue::getValue).min().orElse(0.0);
+        maxY = values.getValues().stream().filter(value -> value.getValue() != null).mapToDouble(SparklineValues.SparklineValue::getValue).max().orElse(0.0);
 
         if (minY.equals(maxY)) {
             minY = minY - 1.0;
@@ -233,7 +242,7 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
      * to allow changing the color of sparkline's line within the plot bands
      */
     private void interpolateIfNeeded(TimeSeries data, SparklineValues.SparklineValue value, SparklineValues.SparklineValue nextValue, List<SparkLinePlotBand> plotBands) {
-        if (nextValue != null) {
+        if (nextValue != null && value.getValue() != null && nextValue.getValue() != null) {
             long x1 = value.getInstant().toEpochMilli();
             long x2 = nextValue.getInstant().toEpochMilli();
             double y1 = value.getValue();
@@ -322,9 +331,10 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
     }
 
     private void verifyLicense(boolean productionMode) {
-        if (!productionMode) {
+        if (!productionMode && !licenceVerified) {
             LicenseChecker.checkLicense(PROJECT_NAME, PROJECT_VERSION);
             UsageStatistics.markAsUsed(PROJECT_NAME, PROJECT_VERSION);
+            licenceVerified = true;
         }
     }
 }
