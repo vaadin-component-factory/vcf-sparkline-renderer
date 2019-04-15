@@ -5,14 +5,14 @@
 
     <parent>
         <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-grid-sparkline-renderer-parent</artifactId>
+        <artifactId>grid-sparkline-renderer-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>vaadin-grid-sparkline-renderer-flow</artifactId>
+    <artifactId>grid-sparkline-renderer-flow</artifactId>
     <packaging>jar</packaging>
 
-    <name>Vaadin Grid SparklineRenderer Flow</name>
+    <name>Grid SparklineRenderer Flow</name>
 
     <dependencies>
 
@@ -129,6 +129,9 @@
                         <!-- Implementation-Title and Implementation-Version
                             come from the POM by default -->
                         <Implementation-Title>Vaadin Grid SparklineRenderer Flow</Implementation-Title>
+                        <Implementation-Vendor>${organization.name}</Implementation-Vendor>
+                        <Implementation-Title>${project.name}</Implementation-Title>
+                        <Implementation-Version>${project.version}</Implementation-Version>
                         <_removeheaders>Built-By</_removeheaders>
                     </instructions>
                 </configuration>

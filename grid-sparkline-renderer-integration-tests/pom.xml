@@ -5,14 +5,14 @@
 
     <parent>
         <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-grid-sparkline-renderer-parent</artifactId>
+        <artifactId>grid-sparkline-renderer-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>vaadin-grid-sparkline-renderer-integration-tests</artifactId>
+    <artifactId>grid-sparkline-renderer-integration-tests</artifactId>
     <packaging>war</packaging>
 
-    <name>Vaadin Grid SparklineRenderer Integration Tests</name>
+    <name>Grid SparklineRenderer Integration Tests</name>
 
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -30,17 +30,11 @@
             <version>${testbench.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-grid-sparkline-renderer-testbench</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <!--System under test-->
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-grid-sparkline-renderer-flow</artifactId>
+            <artifactId>grid-sparkline-renderer-flow</artifactId>
             <version>${project.version}</version>
         </dependency>
 

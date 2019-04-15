@@ -10,10 +10,10 @@
 		<relativePath />
 	</parent>
 
-	<artifactId>vaadin-grid-sparkline-renderer-parent</artifactId>
+	<artifactId>grid-sparkline-renderer-parent</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	<name>Vaadin Grid SparklineRenderer</name>
+	<name>Grid SparklineRenderer</name>
 	<inceptionYear>2019</inceptionYear>
 
 	<organization>
@@ -33,9 +33,9 @@
 	</properties>
 
 	<modules>
-		<module>vaadin-grid-sparkline-renderer-flow</module>
-		<module>vaadin-grid-sparkline-renderer-integration-tests</module>
-		<module>vaadin-grid-sparkline-renderer-demo</module>
+		<module>grid-sparkline-renderer-flow</module>
+		<module>grid-sparkline-renderer-integration-tests</module>
+		<module>grid-sparkline-renderer-demo</module>
 	</modules>
 
 	<repositories>
