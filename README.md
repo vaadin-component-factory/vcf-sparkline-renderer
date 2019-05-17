@@ -22,7 +22,7 @@ Add SprarklineRenderer to your project
 
 ### Using Vaadin SprarklineRenderer
 
-[<img src="vaadin-grid-sparkline-renderer-demo/src/main/resources/screenshot.png" width="700" alt="Screenshot of SparklineRenderer with Grid">]()
+[<img src="https://github.com/vaadin/sparkline-renderer/blob/master/grid-sparkline-renderer-demo/src/main/resources/screenshot.png" width="700" alt="Screenshot of SparklineRenderer with Grid">]()
 
 #### Basic use
 ```java
