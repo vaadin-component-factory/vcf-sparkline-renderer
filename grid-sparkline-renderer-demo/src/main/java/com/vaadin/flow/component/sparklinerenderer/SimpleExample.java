@@ -17,7 +17,7 @@ public class SimpleExample extends VerticalLayout {
         Grid<Song> grid = new Grid<>();
         grid.addColumn(Song::getName).setHeader("Name").setSortable(true);
         grid.addColumn(Song::getArtist).setHeader("Artist").setSortable(true);
-        grid.setItems(createListOfSongs(20));
+        grid.setItems(createListOfSongs(2000));
         grid.addColumn(new SparklineRenderer<>(this::createSparklineValues, song -> new SparklineConfiguration())).setHeader("Daily listeners");
         add(grid);
     }

@@ -46,6 +46,12 @@ public class SparklineConfiguration implements Serializable {
 
     private List<SparkLinePlotBand> plotBands;
 
+    private RenderMode renderMode = RenderMode.SVG;
+
+    public enum RenderMode {
+        SVG, PNG
+    }
+
     /**
      * Create a default SparklineConfiguration
      */
@@ -213,6 +219,13 @@ public class SparklineConfiguration implements Serializable {
     }
 
     /**
+     * @param autoScaleYAxis value of y-axis auto scaling
+     */
+    public void setAutoScaleYAxis(boolean autoScaleYAxis) {
+        this.autoScaleYAxis = autoScaleYAxis;
+    }
+
+    /**
      * @return SparklineConfiguration with given value of y-axis auto scaling
      */
     public SparklineConfiguration withAutoScaleYAxis(boolean autoScaleYAxis) {
@@ -221,9 +234,31 @@ public class SparklineConfiguration implements Serializable {
     }
 
     /**
-     * @return given value of y-axis auto scaling
+     * @return value of y-axis auto scaling
      */
     public boolean isAutoScaleYAxis() {
         return autoScaleYAxis;
+    }
+
+    /**
+     * @return currently used render mode
+     */
+    public RenderMode getRenderMode() {
+        return renderMode;
+    }
+
+    /**
+     * @param renderMode wanted rendering mode SVG (default) or PNG
+     */
+    public void setRenderMode(RenderMode renderMode) {
+        this.renderMode = renderMode;
+    }
+
+    /**
+     * @return SparklineConfiguration with given rendering mode SVG (default) or PNG
+     */
+    public SparklineConfiguration withRenderMode(RenderMode renderMode) {
+        this.renderMode = renderMode;
+        return this;
     }
 }

@@ -30,7 +30,8 @@ public class SparklineRendererDemoView extends DemoView {
         Tab tab2 = new Tab("Using plot bands");
         Tab tab3 = new Tab("Null values");
         Tab tab4 = new Tab("Auto scale y-axis");
-        Tabs tabs = new Tabs(tab1, tab2, tab3, tab4);
+        Tab tab5 = new Tab("Using plot bands, PNG rendering");
+        Tabs tabs = new Tabs(tab1, tab2, tab3, tab4, tab5);
         tabs.addSelectedChangeListener(selectedChangeEvent -> {
             Tab selectedTab = selectedChangeEvent.getSource().getSelectedTab();
             if (selectedTab.equals(tab1)) {
@@ -45,8 +46,12 @@ public class SparklineRendererDemoView extends DemoView {
             } else if (selectedTab.equals(tab4)) {
                 content.removeAll();
                 content.add(new AutoScaleExample());
+            } else if (selectedTab.equals(tab5)) {
+                content.removeAll();
+                content.add(new PlotBandExamplePNG());
             }
         });
+
 
         tab1.setSelected(true);
         content.setSizeFull();

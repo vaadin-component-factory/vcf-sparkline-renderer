@@ -19,6 +19,7 @@ package com.vaadin.flow.component.sparklinerenderer;
 
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.data.provider.DataKeyMapper;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.Rendering;
@@ -28,6 +29,7 @@ import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.StreamResourceWriter;
 import com.vaadin.pro.licensechecker.LicenseChecker;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickUnit;
@@ -59,10 +61,10 @@ import java.util.UUID;
  * @param <ITEM> the type of the input object that can be used by the rendered
  *               sparkline
  */
-public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer.SvgComponent, ITEM> {
+public class SparklineRenderer<ITEM> extends ComponentRenderer<Component, ITEM> {
 
     private static final String PROJECT_NAME = "vaadin-grid-sparkline-renderer-flow";
-    private static final String PROJECT_VERSION = "1.0.0";
+    private static final String PROJECT_VERSION = "1.0.1";
 
     private static final String UNIT_PX = "PX";
     private static final String SVG_ASPECT_RATIO = "none";
@@ -117,15 +119,24 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
      * @return SvgComponent containing the sparkline
      */
     @Override
-    public SvgComponent createComponent(ITEM item) {
+    public Component createComponent(ITEM item) {
         SparklineValues values = valueProvider.apply(item);
         SparklineConfiguration configuration = configurationValueProvider.apply(item);
 
-        SvgComponent component = new SvgComponent();
-        component.setHeight(configuration.getSparklineHeightPx() + UNIT_PX);
-        component.setWidth(configuration.getSparklineWidthPx() + UNIT_PX);
-        component.getElement().setAttribute("data", getStreamResource(drawChart(values, configuration), configuration.getSparklineWidthPx(), configuration.getSparklineHeightPx()));
-        return component;
+        switch (configuration.getRenderMode()) {
+            case SVG:
+                SvgComponent svgComponent = new SvgComponent();
+                svgComponent.setHeight(configuration.getSparklineHeightPx() + UNIT_PX);
+                svgComponent.setWidth(configuration.getSparklineWidthPx() + UNIT_PX);
+                svgComponent.getElement().setAttribute("data", getSVGStreamResource(String.valueOf(item.hashCode()), drawChart(values, configuration), configuration.getSparklineWidthPx(), configuration.getSparklineHeightPx()));
+                return svgComponent;
+            case PNG:
+                Image imageComponent = new Image(getPNGStreamResource(String.valueOf(item.hashCode()), drawChart(values, configuration), configuration.getSparklineWidthPx(), configuration.getSparklineHeightPx()), "");
+                imageComponent.setHeight(configuration.getSparklineHeightPx() + UNIT_PX);
+                imageComponent.setWidth(configuration.getSparklineWidthPx() + UNIT_PX);
+                return imageComponent;
+        }
+        return null;
     }
 
     /**
@@ -286,13 +297,32 @@ public class SparklineRenderer<ITEM> extends ComponentRenderer<SparklineRenderer
     }
 
     /**
-     * Create a StreamResource out of JFreeChart
+     * Create a PNG StreamResource out of JFreeChart
      * <p>
      * The implementation is copied with some modifications from the class below:
      * https://github.com/F43nd1r/vaadin-jfreechart-flow/blob/master/src/main/java/org/vaadin/addon/JFreeChartWrapper.java
      */
-    private StreamResource getStreamResource(JFreeChart chart, int width, int height) {
-        return new StreamResource(UUID.randomUUID().toString() + ".svg", (StreamResourceWriter) (stream, session) -> {
+    private StreamResource getPNGStreamResource(String name, JFreeChart chart, int width, int height) {
+        String randomName = UUID.randomUUID().toString() + ".png";
+        return new StreamResource((name == null ? randomName : name + ".png"), (StreamResourceWriter) (stream, session) -> {
+            session.lock();
+            try {
+                ChartUtils.writeChartAsPNG(stream, chart, width, height);
+            } finally {
+                session.unlock();
+            }
+        });
+    }
+
+    /**
+     * Create an SVG StreamResource out of JFreeChart
+     * <p>
+     * The implementation is copied with some modifications from the class below:
+     * https://github.com/F43nd1r/vaadin-jfreechart-flow/blob/master/src/main/java/org/vaadin/addon/JFreeChartWrapper.java
+     */
+    private StreamResource getSVGStreamResource(String name, JFreeChart chart, int width, int height) {
+        String randomName = UUID.randomUUID().toString() + ".svg";
+        return new StreamResource((name == null ? randomName : name + ".svg"), (StreamResourceWriter) (stream, session) -> {
             session.lock();
             try (Writer writer = new OutputStreamWriter(stream)) {
                 DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();

@@ -54,4 +54,12 @@ public class Song {
     public void setMinimumTargetListeners(int minimumTargetListeners) {
         this.minimumTargetListeners = minimumTargetListeners;
     }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "name='" + name + '\'' +
+                ", artist='" + artist + '\'' +
+                '}';
+    }
 }
