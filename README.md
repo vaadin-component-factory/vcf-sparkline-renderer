@@ -1,9 +1,9 @@
-# Vaadin SprarklineRenderer
+# Vaadin SparklineRenderer
 
-Vaadin SprarklineRenderer is an add-on renderer for Grid (Flow).
+Vaadin SparklineRenderer is an add-on renderer for Grid (Flow).
 
 ### Installing
-Add SprarklineRenderer to your project
+Add SparklineRenderer to your project
 ```xml
 <dependency>
     <groupId>com.vaadin.componentfactory</groupId>
@@ -12,7 +12,7 @@ Add SprarklineRenderer to your project
 </dependency>
 ```
 
-### Using Vaadin SprarklineRenderer
+### Using Vaadin SparklineRenderer
 
 [<img src="https://github.com/vaadin/sparkline-renderer/blob/master/grid-sparkline-renderer-demo/src/main/resources/screenshot.png" width="700" alt="Screenshot of SparklineRenderer with Grid">]()
 
