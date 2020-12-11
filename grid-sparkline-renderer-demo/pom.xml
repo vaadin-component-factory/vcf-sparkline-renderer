@@ -3,23 +3,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.vaadin</groupId>
-        <artifactId>grid-sparkline-renderer-parent</artifactId>
-        <version>1.0.2</version>
-    </parent>
-
+    <groupId>com.vaadin.componentfactory</groupId>
     <artifactId>grid-sparkline-renderer-demo</artifactId>
     <packaging>war</packaging>
+    <version>2.0.0</version>
 
     <name>Grid SparklineRenderer Demo</name>
+
+    <inceptionYear>2018</inceptionYear>
+    <organization>
+        <name>Vaadin Ltd</name>
+        <url>http://vaadin.com/</url>
+    </organization>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <vaadin.version>13.0.3</vaadin.version>
+        <vaadin.version>14.4.4</vaadin.version>
+        <flow.version>2.0.15</flow.version>
     </properties>
 
     <dependencyManagement>
@@ -45,7 +48,7 @@
             <version>${flow.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.vaadin</groupId>
+            <groupId>com.vaadin.componentfactory</groupId>
             <artifactId>grid-sparkline-renderer-flow</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -71,6 +74,27 @@
 
         <plugins>
             <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Jetty plugin for easy testing without a server -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.11.v20180605</version>
+                <configuration>
+                    <scanIntervalSeconds>1</scanIntervalSeconds>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <configuration>
@@ -82,36 +106,10 @@
 
     <profiles>
         <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <id>production</id>
             <properties>
-                <packaging.type>jar</packaging.type>
+                <vaadin.productionMode>true</vaadin.productionMode>
             </properties>
-        </profile>
-        <profile>
-            <!--Only used for local testing-->
-            <id>war</id>
-            <properties>
-                <packaging.type>war</packaging.type>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>${jetty.plugin.version}</version>
-                        <configuration>
-                            <scanIntervalSeconds>5</scanIntervalSeconds>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>production-mode</id>
-
             <dependencies>
                 <dependency>
                     <groupId>com.vaadin</groupId>
@@ -128,8 +126,8 @@
                         <executions>
                             <execution>
                                 <goals>
-                                    <goal>copy-production-files</goal>
-                                    <goal>package-for-production</goal>
+                                    <goal>prepare-frontend</goal>
+                                    <goal>build-frontend</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -138,4 +136,5 @@
             </build>
         </profile>
     </profiles>
+
 </project>
