@@ -1,26 +1,18 @@
-# Vaadin SprarklineRenderer
+# Vaadin SparklineRenderer
 
-Vaadin SprarklineRenderer is an add-on renderer for Grid (Flow).
-
-## License & Author
-
-This Add-on is distributed under [Commercial Vaadin Add-on License version 3](http://vaadin.com/license/cval-3) (CVALv3). For license terms, see LICENSE.txt.
-
-Vaadin SprarklineRenderer is written by Vaadin Ltd.
-
-To purchase a license, visit http://vaadin.com/pricing
+Vaadin SparklineRenderer is an add-on renderer for Grid (Flow).
 
 ### Installing
-Add SprarklineRenderer to your project
+Add SparklineRenderer to your project
 ```xml
 <dependency>
-    <groupId>com.vaadin</groupId>
+    <groupId>com.vaadin.componentfactory</groupId>
     <artifactId>vaadin-grid-sparkline-renderer-flow</artifactId>
     <version>${project.version}</version>
 </dependency>
 ```
 
-### Using Vaadin SprarklineRenderer
+### Using Vaadin SparklineRenderer
 
 [<img src="https://github.com/vaadin/sparkline-renderer/blob/master/grid-sparkline-renderer-demo/src/main/resources/screenshot.png" width="700" alt="Screenshot of SparklineRenderer with Grid">]()
 
@@ -93,3 +85,12 @@ To compile and run demos locally execute
 mvn compile
 mvn -pl vaadin-component-skeleton-flow-demo -Pwar jetty:run
 ```
+
+## License & Author
+
+This Add-on is distributed under Apache 2.0
+
+Component Factory Breadcrumb is written by Vaadin Ltd.
+
+### Sponsored development
+Major pieces of development of this add-on has been sponsored by multiple customers of Vaadin. Read more  about Expert on Demand at: [Support](https://vaadin.com/support) and  [Pricing](https://vaadin.com/pricing)

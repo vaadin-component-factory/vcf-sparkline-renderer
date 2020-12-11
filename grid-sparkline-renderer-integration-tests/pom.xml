@@ -3,13 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.vaadin</groupId>
-        <artifactId>grid-sparkline-renderer-parent</artifactId>
-        <version>1.0.2</version>
-    </parent>
-
+    <groupId>com.vaadin.componentfactory</groupId>
     <artifactId>grid-sparkline-renderer-integration-tests</artifactId>
+    <version>2.0.0</version>
     <packaging>war</packaging>
 
     <name>Grid SparklineRenderer Integration Tests</name>
@@ -20,7 +16,27 @@
         <ci-sauce.version>1.138</ci-sauce.version>
 
         <frontend.working.directory>${project.basedir}/src/main/webapp/frontend</frontend.working.directory>
+
+        <jetty.plugin.version>9.4.11.v20180605</jetty.plugin.version>
+        <vaadin.version>14.4.4</vaadin.version>
+        <testbench.version>6.0.1</testbench.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
+                <version>${vaadin.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!--Test scoped-->
@@ -33,42 +49,13 @@
 
         <!--System under test-->
         <dependency>
-            <groupId>com.vaadin</groupId>
+            <groupId>com.vaadin.componentfactory</groupId>
             <artifactId>grid-sparkline-renderer-flow</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!--Flow-->
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>flow-client</artifactId>
-            <version>${flow.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-data</artifactId>
-            <version>${flow.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-html-components</artifactId>
-            <version>${flow.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-server-production-mode</artifactId>
-            <version>${flow.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-grid-flow</artifactId>
-            <version>${vaadin-grid-flow-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-lumo-theme</artifactId>
-            <version>${flow.version}</version>
+            <artifactId>vaadin-core</artifactId>
         </dependency>
 
         <dependency>
@@ -124,151 +111,6 @@
         </plugins>
     </build>
     <profiles>
-        <!--This profile is only present for quick testing against the element from GitHub-->
-        <!--Do not use with production mode-->
-        <profile>
-            <id>bower</id>
-            <activation>
-                <property>
-                    <name>useBower</name>
-                </property>
-            </activation>
-
-            <properties>
-                <buildtools.directory>build-tools</buildtools.directory>
-
-                <!-- Not the newest version because of https://www.polymer-project.org/2.0/docs/tools/node-support -->
-                <frontend.maven.plugin.version>1.6</frontend.maven.plugin.version>
-                <node.version>v8.9.0</node.version>
-                <yarn.version>v1.3.2</yarn.version>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>${frontend.maven.plugin.version}</version>
-
-                        <configuration>
-                            <nodeVersion>${node.version}</nodeVersion>
-                            <yarnVersion>${yarn.version}</yarnVersion>
-                            <workingDirectory>${buildtools.directory}</workingDirectory>
-                        </configuration>
-
-                        <executions>
-                            <execution>
-                                <id>install-tools-then-build</id>
-                                <goals>
-                                    <goal>install-node-and-yarn</goal>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <workingDirectory>${buildtools.directory}</workingDirectory>
-                                    <arguments>install-bower-and-dependencies</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>production</id>
-            <activation>
-                <property>
-                    <name>!skipFrontend</name>
-                </property>
-            </activation>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>flow-maven-plugin</artifactId>
-                        <version>${flow.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>copy-production-files</goal>
-                                    <goal>package-for-production</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>saucelabs-it</id>
-            <activation>
-                <property>
-                    <name>!runLocally</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.20</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <sauce.user>${sauce.user}</sauce.user>
-                                <sauce.sauceAccessKey>${sauce.sauceAccessKey}</sauce.sauceAccessKey>
-                                <sauce.options>${sauce.options}</sauce.options>
-                            </systemPropertyVariables>
-                            <trimStackTrace>false</trimStackTrace>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.saucelabs.maven.plugin</groupId>
-                        <artifactId>sauce-connect-plugin</artifactId>
-                        <version>2.1.25</version>
-                        <configuration>
-                            <sauceUsername>${sauce.user}</sauceUsername>
-                            <sauceAccessKey>${sauce.sauceAccessKey}</sauceAccessKey>
-                            <options>${sauce.options}</options>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.saucelabs</groupId>
-                                <artifactId>ci-sauce</artifactId>
-                                <version>${ci-sauce.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <!-- Start Sauce Connect prior to running the integration
-                                tests -->
-                            <execution>
-                                <id>start-sauceconnect</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start-sauceconnect</goal>
-                                </goals>
-                            </execution>
-                            <!-- Stop the Sauce Connect process after the integration
-                                tests have finished -->
-                            <execution>
-                                <id>stop-sauceconnect</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop-sauceconnect</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>local-it</id>
             <activation>
